@@ -10,7 +10,7 @@ pipeline {
     stage('Build image') {
       agent any
       steps {
-        scritp {
+        script {
           sh 'docker build -t jabberwokks/$IMAGE_NAME:$IMAGE_TAG .'
         }
       }
@@ -18,7 +18,7 @@ pipeline {
     stage('Run container based on builded image') {
       agent any
       steps {
-        scritp {
+        script {
           sh '''
             docker run --name $IMAGE_NAME -d -p 80:5000 -e PORT=5000 jabberwokks/$IMAGE_NAME:$IMAGE_TAG
             sleep 5
@@ -29,7 +29,7 @@ pipeline {
     stage('Test image') {
       agent any
       steps {
-        scritp {
+        script {
           sh 'curl http://172.17.0.1 | grep -q "Hello world!"'
         }
       }
@@ -37,7 +37,7 @@ pipeline {
     stage('Clean container') {
       agent any
       steps {
-        scritp {
+        script {
           sh '''
             docker stop $IMAGE_NAME
             docker rm $IMAGE_NAME
@@ -54,7 +54,7 @@ pipeline {
         HEROKU_API_KEY = credentials('heroku_api_key')
       }
       steps {
-        scritp {
+        script {
           sh '''
             heroku container:login
             heroku create $STAGING || echo "project already exist"
@@ -73,7 +73,7 @@ pipeline {
         HEROKU_API_KEY = credentials('heroku_api_key')
       }
       steps {
-        scritp {
+        script {
           sh '''
             heroku container:login
             heroku create $PRODUCTION || echo "project already exist"
