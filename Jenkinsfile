@@ -1,5 +1,5 @@
 /* import shared library */
-@Library('jenkins-shared-library')
+@Library('jenkins-shared-library')_
 pipeline {
      environment {
         IMAGE_NAME = "alpinehelloworld"
